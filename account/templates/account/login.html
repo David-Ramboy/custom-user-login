@@ -1,0 +1,11 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <p>d</p>
+    {{form.username }}
+</form>
+
+{% endblock %}
