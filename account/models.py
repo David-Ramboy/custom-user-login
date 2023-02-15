@@ -58,5 +58,5 @@ class UserRegisters(models.Model):
     re_password  = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.name
+        return self.username
     
