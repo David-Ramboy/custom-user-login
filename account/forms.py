@@ -12,12 +12,11 @@ class RegistrationForm(forms.ModelForm):
     class Meta:
         model = UserRegisters
         fields = ['username', 'email', 'password', 're_password']
-    
-   
-        username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your Username'}))
-        email =  forms.CharField(widget=forms.TextInput(attrs={'placeholder' : 'Enter your Email'}))
-        password = forms.CharField(widget=forms.TextInput(attrs={'placeholder' : 'Enter your Email'}))
-        re_password = forms.CharField(widget=forms.TextInput(attrs={'placeholder' : 'Enter your Email'}))
+
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your Username'}))
+    email =  forms.CharField(widget=forms.TextInput(attrs={'placeholder' : 'Enter your Email'}))
+    password = forms.CharField(widget=forms.TextInput(attrs={'placeholder' : 'Enter your Email'}))
+    re_password = forms.CharField(widget=forms.TextInput(attrs={'placeholder' : 'Enter your Email'}))
     
 
     
