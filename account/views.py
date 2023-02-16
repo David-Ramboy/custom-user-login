@@ -11,6 +11,7 @@ from .models import Custom_user
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 
+
 def register_user(request):
     form = RegistrationForm()
     if request.method == 'POST':

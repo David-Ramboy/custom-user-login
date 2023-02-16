@@ -27,6 +27,15 @@ class RegistrationForm(UserCreationForm):
             raise ValidationError("Email exists")
        return self.cleaned_data
     
+    def clean(self):
+       username = self.cleaned_data.get('username')
+       if Custom_user.objects.filter(username=username).exists():
+            raise ValidationError("Username exists")
+       return self.cleaned_data
+       
+
+    
+    
 
 class UpdateUserForm(forms.ModelForm):
     username = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
