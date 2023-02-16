@@ -13,7 +13,7 @@ class EmailAuthenticationBackend(BaseBackend):
         except Custom_user.DoesNotExist:
             return None
         else:
-            if my_user.is_active and my_user.check_password(password):
+            if my_user and my_user.is_active and my_user.check_password(password):
                 return my_user
         return None
 

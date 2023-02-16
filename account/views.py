@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse, reverse_lazy
 
-from django.contrib import messages
+from .forms import RegistrationForm, UpdateUserForm
+from .models import Custom_user
 
-from .forms import RegistrationForm
-
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 
 def register_user(request):
     form = RegistrationForm()
@@ -35,9 +38,10 @@ def login_user(request):
 
             user = authenticate(username=username, password=password)
 
-            if user is not None:
-                login(request, user)
-                return redirect('home')
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('home')
             else:
                 messages.error(request,'Username or Password is Incorrect')
         else:
@@ -47,3 +51,25 @@ def login_user(request):
 
 def home(request):
     return render(request, 'account/home.html')
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user = request.user
+        form = UpdateUserForm(request.POST or None, instance=user)
+        
+        if form.is_valid():
+            user = form.save()
+            messages.info(request, f'You have successfully updated your profile.')
+            return HttpResponseRedirect(reverse('home'))
+    else:
+        form = UpdateUserForm(instance=request.user)
+
+    return render(request, 'account/profile.html',{
+        'form': form
+    })
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'account/changepassword.html'
+    success_message = "Succesfully Changed Your Password"
+    success_url = reverse_lazy('profile')

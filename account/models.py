@@ -18,6 +18,8 @@ class Custom_user(AbstractUser):
     PHONE_NUMBER_FIELD = 'phone_number'
 
     REQUIRED_FIELDS = ['email','address','phone_number']
+    
+    is_active = models.BooleanField(default=True)
 
 
 

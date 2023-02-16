@@ -27,6 +27,18 @@ class RegistrationForm(UserCreationForm):
             raise ValidationError("Email exists")
        return self.cleaned_data
     
+
+class UpdateUserForm(forms.ModelForm):
+    username = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    phone_number = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    address = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'email', 'phone_number', 'address']
+
 # class RegistrationForm(forms.ModelForm):
 
 #     class Meta:

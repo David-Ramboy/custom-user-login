@@ -1,0 +1,33 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+<p>Profile Edit</p>
+<form action="" method="post">
+    {% csrf_token %}
+    <label for="username">Username</label>
+    {{form.username}}<br>
+    <label for="username">Email</label>
+    {{form.email}}<br>
+    <label for="username">Phone No:</label>
+    {{form.phone_number}}<br>
+    <label for="username">Address</label>
+    {{form.address}}<br>
+
+    <a href="{% url 'password_change' %}">Change Password</a>
+    {% if form.errors%}
+    {% for field in  form%}
+        {% for error in field.errors %}
+            {{ error|escape }}
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        {{error|escape }}
+    {% endfor %}
+    {% endif %} <br><br>
+
+    <button>Save Change</button><br>
+    
+    <a href="/home">back</a>
+</form>
+
+{% endblock %}
