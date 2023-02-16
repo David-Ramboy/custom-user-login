@@ -4,8 +4,29 @@
 <p>register</p>
 <form action="" method="post">
     {% csrf_token %}
+    <label for="username">Username</label>
+    {{form.username}}<br>
+    <label for="username">Email</label>
+    {{form.email}}<br>
+    <label for="username">Phone No:</label>
+    {{form.phone_number}}<br>
+    <label for="username">Address</label>
+    {{form.address}}<br>
+    <label for="username">Password</label>
+    {{form.password1}}<br>
+    <label for="username">Confirm Password</label>
+    {{form.password2}}<br><br>
+    {% if form.errors%}
+    {% for field in  form%}
+        {% for error in field.errors %}
+            {{ error|escape }}
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        {{error|escape }}
+    {% endfor %}
+    {% endif %} <br><br>
 
-    {{ form.as_p }}
     <button>submit</button>
     <a href="/">signin</a>
 </form>

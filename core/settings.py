@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 ]
 # AUTH_USER_MODEL = 'account.UserRegistration'
 
-# AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = 'account.Custom_user'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -103,6 +103,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "account.backends.EmailAuthenticationBackend",
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
