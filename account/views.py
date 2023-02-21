@@ -11,6 +11,7 @@ from .models import Custom_user
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 
+from course.models import Category, Course
 
 def register_user(request):
     form = RegistrationForm()
@@ -52,6 +53,15 @@ def login_user(request):
 
 def home(request):
     return render(request, 'account/home.html')
+
+def course(request):
+    courses = Course.objects.all()
+    categories = Category.objects.all() 
+        
+    return render(request, 'account/course.html', {
+        'categories' : categories,
+        'courses' : courses
+    })
 
 @login_required
 def profile(request):

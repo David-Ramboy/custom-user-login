@@ -1,0 +1,26 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+<a href="/courses">Goto back</a>
+
+{% for category in categories %}
+<table class="table">
+    <thead>
+        <tr>
+            <th colspan="2">{{category.name}}</th>
+        </tr>
+    </thead>
+    {% for course in category.courses.all %}
+    <tbody>
+        <tr>
+            <td style="width: 900px;">{{course.course}}</td>
+            <td>{{course.duration}}</td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+{% endfor %}
+
+
+{% endblock %}
