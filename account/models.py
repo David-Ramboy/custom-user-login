@@ -11,7 +11,7 @@ class Custom_user(AbstractUser):
     email = models.EmailField(unique=True,blank=True, null=True)
 
     def __str__(self):
-        return self.username
+        return self.email
 
     EMAIL_FIELD = 'email'
     ADDRESS_FIELD = 'address'

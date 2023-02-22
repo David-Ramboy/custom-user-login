@@ -1,4 +1,5 @@
 from django.db import models
+from account.models import Custom_user
 
 # Create your models here.
 class Category(models.Model):
@@ -21,17 +22,26 @@ class Course(models.Model):
 
 
 class Status(models.Model):
-    status = models.CharField(max_length=2)
+    status = models.CharField(max_length=255)
     
     def __str__(self):
         return self.status
 
+
+COLOR_CHOICES = (
+    ('processing', 'Processing'),
+    ('paid','Paid'),
+    ('cancelled', 'Cancelled'),
+    ('completed', 'Completed')
+)
 class Ordered_Course(models.Model):
     category = models.ForeignKey(Category, related_name='ordered_courses',on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, related_name='ordered_courses',on_delete=models.CASCADE)
-    price = models.ForeignKey(Course, related_name='ordered_courses_price',on_delete=models.CASCADE)
+    course = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=12, decimal_places=2)
     proof_of_payment = models.ImageField(upload_to='payment_images', blank=True, null=True)
-    status = models.ForeignKey(Status, related_name="ordered_courses",on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=COLOR_CHOICES,default='Processing')
+    email = models.EmailField(unique=True,blank=True, null=True)
+
 
     def __str__(self):
         return self.course

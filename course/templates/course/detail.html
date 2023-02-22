@@ -1,0 +1,26 @@
+{% extends 'account/base.html' %}
+
+{% block title %}{{course.course}}{% endblock %}
+
+{% block content %}
+
+<form action="." method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{course.category}} <br>
+    <label for="">Course:
+    {{ form.course }}
+    </label> <br>
+    <label>Proof of Payment:
+    {{ form.proof_of_payment }}
+    {{form.price}}
+    {{form.email}}
+    {{form.status}}
+    {{form.category}}
+    </label> <br> <br>
+    <button>Submit</button>
+</form>
+{{course.course}}
+{{course.price}}
+{{user.email}}
+{% endblock %}
