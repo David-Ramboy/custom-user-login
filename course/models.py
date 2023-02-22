@@ -14,7 +14,7 @@ class Course(models.Model):
     category = models.ForeignKey(Category, related_name='courses',on_delete=models.CASCADE)
     course = models.CharField(max_length=255)
     duration = models.CharField(max_length=255) 
-    price = models.FloatField(default=0)
+    price = models.DecimalField(max_digits=12, decimal_places=2)
 
     def __str__(self):
         return self.course
