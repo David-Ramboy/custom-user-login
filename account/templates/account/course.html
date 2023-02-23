@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<a href="/home">Goto back</a>
+<a href="/">Goto back</a>
 
 {% for category in categories %}
 <table class="table">
@@ -16,6 +16,7 @@
         <tr>
             <td style="width: 900px;">{{course.course}}</td>
             <td style="width:300px">{{course.duration}}</td>
+            <td style="width:300px">{{course.price}}</td>
             <td><a href="{% url 'course:detail' course.id %}">Get</a></td>
         </tr>
     </tbody>

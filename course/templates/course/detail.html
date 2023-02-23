@@ -4,23 +4,14 @@
 
 {% block content %}
 
-<form method="post"   enctype="multipart/form-data">
+<form method="POST"
+      enctype="multipart/form-data"
+>
     {% csrf_token %}
     {{form.as_p}}
-    {% comment %} {{course.category}} <br>
-    <label for="">Course:
-    {{ form.course }}
-    </label> <br>
-    <label>Proof of Payment:
-    {{ form.proof_of_payment }}
-    {{form.price}}
-    {{form.email}}
-    {{form.status}}
-    {{form.category}}
-    </label> <br> <br> {% endcomment %}
-    <button>Submit</button>
+    <button>Avail Course</button>
 </form>
-{{course.course}}
-{{course.price}}
-{{user.email}}
+{{course.course}}</br>
+{{course.price}}</br>
+{{user.email}}</br>
 {% endblock %}

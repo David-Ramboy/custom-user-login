@@ -13,6 +13,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from course.models import Category, Course
 
+
 def register_user(request):
     form = RegistrationForm()
     if request.method == 'POST':
@@ -30,6 +31,7 @@ def register_user(request):
         'form' : form,
         'title' : 'New item'
     })
+
 
 def login_user(request):
     if request.method == 'POST':
@@ -51,8 +53,10 @@ def login_user(request):
 
     return render(request, 'account/login.html')
 
+
 def home(request):
     return render(request, 'account/home.html')
+
 
 def course(request):
     courses = Course.objects.all()
@@ -62,6 +66,7 @@ def course(request):
         'categories' : categories,
         'courses' : courses
     })
+
 
 @login_required
 def profile(request):
@@ -79,6 +84,7 @@ def profile(request):
     return render(request, 'account/profile.html',{
         'form': form
     })
+
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'account/changepassword.html'
