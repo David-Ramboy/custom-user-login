@@ -15,11 +15,11 @@ def detail(request, pk):
         form = NewCourseForm(request.POST, request.FILES, instance=course,initial={'email': user_email})
 
         if form.is_valid():
-            item = form.save(commit=False)
-            item.created_by = request.user
-            item.save()
+            form.save()
+          
             
-            return redirect('/success/')
+            return redirect('.')
+    
     else:
         form = NewCourseForm(instance=course,initial={'email': user_email})
 

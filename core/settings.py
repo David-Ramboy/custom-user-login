@@ -43,7 +43,6 @@ INSTALLED_APPS = [
 # AUTH_USER_MODEL = 'account.UserRegistration'
 
 AUTH_USER_MODEL = 'account.Custom_user'
-AUTH_USER_MODEL = 'account.Custom_user'
 
 
 MIDDLEWARE = [

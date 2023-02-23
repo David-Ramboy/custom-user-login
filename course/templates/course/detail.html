@@ -4,10 +4,10 @@
 
 {% block content %}
 
-<form action="." method="post" enctype="multipart/form-data">
+<form method="post"   enctype="multipart/form-data">
     {% csrf_token %}
-
-    {{course.category}} <br>
+    {{form.as_p}}
+    {% comment %} {{course.category}} <br>
     <label for="">Course:
     {{ form.course }}
     </label> <br>
@@ -17,7 +17,7 @@
     {{form.email}}
     {{form.status}}
     {{form.category}}
-    </label> <br> <br>
+    </label> <br> <br> {% endcomment %}
     <button>Submit</button>
 </form>
 {{course.course}}
