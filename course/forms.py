@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Ordered_Course
+from .models import OrderedCourse
 
 class NewCourseForm(forms.ModelForm):
    
@@ -13,17 +13,17 @@ class NewCourseForm(forms.ModelForm):
 
 
     class Meta:
-        model = Ordered_Course
-        fields = ('category','course','price','proof_of_payment', 'status', 'email')
+        model = OrderedCourse
+        fields = ('user','course','proof_of_payment')
 
-    widgets = {
-        'category' : forms.TextInput(),
-        'course' : forms.TextInput(),
-        'price' : forms.TextInput(),
-        'proof_of_payment' : forms.FileInput(),
-        'status' : forms.TextInput(),
-        'email' : forms.TextInput()
-    }
+    # widgets = {
+    #     'category' : forms.TextInput(),
+    #     'course' : forms.TextInput(),
+    #     'price' : forms.TextInput(),
+    #     'proof_of_payment' : forms.FileInput(),
+    #     'status' : forms.TextInput(),
+    #     'email' : forms.TextInput()
+    # }
     
         
         

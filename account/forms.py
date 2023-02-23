@@ -18,7 +18,7 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         User = get_user_model()
         model = User
-        fields = ('username', 'address','phone_number','email','password1', 'password2')
+        fields = ('username', 'address','company','position','phone_number','email','password1', 'password2')
     
 
     def clean(self):
@@ -38,10 +38,12 @@ class UpdateUserForm(forms.ModelForm):
     email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
     phone_number = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
     address = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    position = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    company = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'phone_number', 'address']
+        fields = ['username', 'email','company','position', 'phone_number', 'address']
 
 # class RegistrationForm(forms.ModelForm):
 

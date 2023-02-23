@@ -11,7 +11,7 @@ from .models import Custom_user
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 
-from course.models import Category, Course
+from course.models import Category, Course, OrderedCourse
 
 def register_user(request):
     form = RegistrationForm()
@@ -43,7 +43,7 @@ def login_user(request):
             if user:
                 if user.is_active:
                     login(request, user)
-                    return redirect('home')
+                    return redirect('./home/')
             else:
                 messages.error(request,'Username or Password is Incorrect')
         else:
@@ -72,7 +72,7 @@ def profile(request):
         if form.is_valid():
             user = form.save()
             messages.info(request, f'You have successfully updated your profile.')
-            return HttpResponseRedirect(reverse('home'))
+            return HttpResponseRedirect(reverse('account:home'))
     else:
         form = UpdateUserForm(instance=request.user)
 
@@ -83,4 +83,11 @@ def profile(request):
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'account/changepassword.html'
     success_message = "Succesfully Changed Your Password"
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('account:profile')
+
+def viewimgpayment(request, pk):
+    ordered_courses = get_object_or_404(OrderedCourse, pk=pk)
+
+    return render(request, 'account/viewimgpayment.html',{
+        'ordered_courses':ordered_courses
+    })

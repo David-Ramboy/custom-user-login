@@ -12,8 +12,12 @@
     {{form.phone_number}}<br>
     <label for="username">Address</label>
     {{form.address}}<br>
+    <label for="username">Company</label>
+    {{form.company}}<br>
+    <label for="username">Position</label>
+    {{form.position}}<br>
 
-    <a href="{% url 'password_change' %}">Change Password</a>
+    <a href="{% url 'account:password_change' %}">Change Password</a>
     {% if form.errors%}
     {% for field in  form%}
         {% for error in field.errors %}

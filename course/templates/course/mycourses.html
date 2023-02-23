@@ -1,0 +1,18 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+<div style="display:flex; justify-content:space-between; flex-wrap:wrap;">
+{%  for ordered_course in  ordered_courses %}
+<div>
+    <h4>{{ordered_course.course.category}}</h4><br>
+    {{ordered_course.course}} <br> 
+    {{ordered_course.price}} <br> 
+    <div><a href="{% url 'account:viewpayment' ordered_course.id  %}">Proof of Payment Link</a></div>
+    {{ordered_course.status}} <br> <br><br><br>
+
+</div>
+
+{% endfor %}
+</div>
+{% endblock %}

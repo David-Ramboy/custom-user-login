@@ -5,7 +5,12 @@
 <p>Welcome {{user.username}}</p>
 <p>Your Phone Address. is {{user.address}}</p>
 <p>Your Current No is {{user.phone_number}}</p>
+<p>Your Current Email is {{user.email}}</p>
+<p>Your Company name is {{user.company}}</p>
+<p>Your Position is {{user.position}}</p>
 
-<a href="/profile">Edit Profile</a><br>
+
+
+<a href="{% url 'account:profile' %}">Edit Profile</a><br>
 <a href="/course">Goto courses</a>
 {% endblock %}
