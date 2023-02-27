@@ -2,11 +2,10 @@
 
 {% block content %}
 <h1>List of Enrollees</h1>
-{% regroup ordered_course by course as course_list %}
-{% for course in course_list %}
-    <p>{{course.grouper}}</p>
-    {% for ordered_course in course.list %}
-        <li>{{ ordered_course.user }}</li>
+{% for course_name, ordered_courses in course_dict.items %}
+    <p>{{course_name}}</p>
+    {% for ordered_course in ordered_courses %}
+        <li>{{ ordered_course.user.email }}</li>
     {%endfor%}
     
 {% endfor %}

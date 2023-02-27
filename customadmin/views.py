@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.shortcuts import redirect, HttpResponseRedirect, get_object_or_404
 from course.models import Category, Course, OrderedCourse
-
+from django.db.models import Count
 # from django.urls import HttpRes
 # Create your views here.
 def admin_login(request):
@@ -49,10 +49,17 @@ def detail(request, pk):
 
 def list_of_enrollees(request):
     courses = Course.objects.all()
-    ordered_courses = OrderedCourse.objects.all()
+    ordered_courses = OrderedCourse.objects.select_related('user','course').all()
+    course_dict = {}
 
+    for ordered_course in ordered_courses:
+        course_name = ordered_course.course.course
+        if course_name not in course_dict:
+            course_dict[course_name] = []
+        course_dict[course_name].append(ordered_course)
 
+    print(course_dict)
     return render(request, 'customadmin/list_of_enrollees.html',{
         'courses' : courses,
-        'ordered_course' : ordered_courses
+        'course_dict' : course_dict
     })
