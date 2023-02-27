@@ -1,0 +1,15 @@
+{% extends 'account/base.html' %}
+
+{% block title %}{{course.course}}{% endblock %}
+{% block content %}
+<h1>Course Details</h1>
+
+<h3>Course Category</h3>
+<p>{{course.category}}</p>
+<h3>Course Name</h3>
+<p>{{course.course}}</p>
+<h3>Course duration</h3>
+<p>{{course.duration}}</p>
+<h3>Course Price</h3>
+<p>{{course.price}}</p>
+{% endblock %}

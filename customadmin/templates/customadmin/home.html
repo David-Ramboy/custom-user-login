@@ -1,0 +1,29 @@
+{% extends 'account/base.html' %}
+
+{%  block content %}
+    <h1>Home Admin</h1>
+    <a href="{% url 'list_of_enrollees' %}">List of enrollees</a>
+    <p>List of Course:</p>
+    {% for category in categories %}
+        <table class="table">
+        <thead>
+            <tr>
+                <th colspan="1">{{category.name}}</th>
+                <th colspan="1">{{category.duration}}</th>
+                <th colspan="2">{{category.price}}</th>
+            </tr>
+        </thead>
+        {% for course in category.courses.all %}
+        <tbody>
+            <tr>
+                <td style="width: 900px;">{{course.course}}</td>
+                <td style="width:300px">{{course.duration}}</td>
+                <td style="width:200px">{{course.price}}</td>
+                <td style="width:200px"><a href="{% url 'detail' course.id %}">view details</a></td>
+
+            </tr>
+        </tbody>
+        {% endfor %}
+        </table>
+    {% endfor %}
+{% endblock %}

@@ -22,6 +22,7 @@ from django.views.static import serve
 urlpatterns = [
     path('', include('account.urls')),
     path('course/',include('course.urls')),
+    path('um-admin/', include('customadmin.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
