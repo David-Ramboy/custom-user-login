@@ -6,9 +6,12 @@
 
 <form method="POST"   enctype="multipart/form-data">
     {% csrf_token %}
-    {{form.as_p}}
+    {{form.as_p}}<br>
+    <a href="{% url 'course:register_batch' course.id %}">Register</a>
+
     <button>Add Course</button>
 </form>
+
 {{course.course}}
 {{course.price}}
 {{user.email}}

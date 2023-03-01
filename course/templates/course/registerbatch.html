@@ -1,0 +1,26 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+<div>
+    <h4>Available batch</h4>
+{% for batch in batchcourse %}
+{{batch.course}}<br>
+<p>Batch ID: {{batch.id}}</p>
+<p>Start Date:</p>
+<p>{{batch.start_date}}</p>
+<p>End Date:</p>
+<p>{{batch.end_date}}</p>
+
+{% endfor %}
+
+<form method="POST" >
+    {% csrf_token %}
+    {{form.as_p}}<br>
+    <button>Register</button>
+</form>
+
+</div>
+
+
+{% endblock %}

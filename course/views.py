@@ -2,8 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import auth
 from .models import OrderedCourse,Course
+from customadmin.models import TrainingBatch
 from django.urls import reverse
-from .forms import NewCourseForm
+from .forms import NewCourseForm, NewParticipant
 
 # Create your views here.
 @login_required
@@ -46,4 +47,29 @@ def proofpayment(request, pk):
 
     return render(request, 'course/proofpayment.html',{
         'ordered_courses':ordered_courses
+    })
+
+def register_batch(request, pk):
+    courseOne = get_object_or_404(Course, pk=pk)
+    batchcourse = TrainingBatch.objects.all().filter(course=courseOne)
+    user = request.user
+    
+    initial_values = {
+        'user': user,
+        'batchcourse': batchcourse
+    }
+
+    form = NewParticipant(request.POST or None,initial=initial_values)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            batch_course = form.save(commit=False)
+            batch_course.course = batchcourse
+            form.save()
+          
+            return redirect('../course/mycourses')
+    
+    return render(request,'course/registerbatch.html',{
+        'form': form,
+        'batchcourse' : batchcourse,
     })
