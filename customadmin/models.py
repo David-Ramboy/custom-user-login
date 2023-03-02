@@ -10,7 +10,7 @@ import uuid
 class TrainingBatch(models.Model):
 
     course = models.ForeignKey(Course,related_name='training_batch',on_delete=models.CASCADE)
-    participants = models.ManyToManyField(RegisterBatch, blank=True, null=False)
+    participants = models.ForeignKey(RegisterBatch, blank=True, null=True,on_delete=models.CASCADE)
     start_date = models.DateField(auto_now_add=False, auto_now=False, blank=True)
     end_date = models.DateField(auto_now_add=False, auto_now=False, blank=True)
 

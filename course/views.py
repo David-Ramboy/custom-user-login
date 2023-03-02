@@ -52,7 +52,6 @@ def proofpayment(request, pk):
 def register_batch(request, pk):
     courseOne = get_object_or_404(Course, pk=pk)
     batchcourse = TrainingBatch.objects.all().filter(course=courseOne)
-    print(batchcourse)
     batchcourse_startdate = batchcourse.values('start_date')
     batchcourse_enddate = batchcourse.values('end_date')
 

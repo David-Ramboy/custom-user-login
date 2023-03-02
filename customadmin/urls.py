@@ -7,7 +7,7 @@ urlpatterns = [
     path('home/', views.home, name="home"),
     path('home/<int:pk>', views.detail, name="detail"),
     path('listenrollees/', views.list_of_enrollees, name="list_of_enrollees"),
-    path('createbatch/', views.create_batch, name="create_batch")
-
+    path('createbatch/', views.create_batch, name="create_batch"),
+    path('list-enrollees-per-batch/', views.list_of_enrollees_per_batch, name="list_enrollees_per_batch")
 
 ]
