@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import OrderedCourse
+from .models import OrderedCourse, RegisterBatch
 
 class NewCourseForm(forms.ModelForm):
    
@@ -24,6 +24,9 @@ class NewCourseForm(forms.ModelForm):
     #     'status' : forms.TextInput(),
     #     'email' : forms.TextInput()
     # }
-    
-        
-        
+
+class NewParticipant(forms.ModelForm):
+
+    class Meta:
+        model = RegisterBatch
+        fields = ('user',) 

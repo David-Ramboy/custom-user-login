@@ -1,0 +1,22 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+<h1>Create Batch</h1>
+<form method="post">
+    {% csrf_token %}
+<label>
+    Course:
+    {{form.course}}</label><br><br>
+<label>
+    Start Date:
+    {{form.start_date}}</label><br><br>
+<label>
+    end Date:
+    {{form.end_date}}</label>
+<br>
+<br>
+
+<button>Create</button>
+</form>
+{% comment %} fields = ('course','participants','start_end','end_date')  {% endcomment %}
+{% endblock %}

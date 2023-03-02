@@ -3,6 +3,9 @@
 {%  block content %}
     <h1>Home Admin</h1>
     <a href="{% url 'list_of_enrollees' %}">List of enrollees</a>
+    <a href="{% url 'create_batch' %}">Create batch</a>
+    <a href="{% url 'list_enrollees_per_batch' %}">view list of enrolless per batch</a>
+
     <p>List of Course:</p>
     {% for category in categories %}
         <table class="table">

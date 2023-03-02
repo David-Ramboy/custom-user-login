@@ -46,3 +46,12 @@ class OrderedCourse(models.Model):
     def __str__(self):
         return self.course.course
     
+class RegisterBatch(models.Model):
+    user = models.ForeignKey(Custom_user,related_name='register_batch', on_delete=models.CASCADE)
+    course = models.CharField(max_length=255)
+    start_date = models.DateField(auto_now_add=False, auto_now=False, blank=True, null=True)
+    end_date = models.DateField(auto_now_add=False, auto_now=False, blank=True, null=True)
+    
+    def __str__(self):
+        return self.user.email
+    
