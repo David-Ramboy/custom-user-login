@@ -52,11 +52,19 @@ def proofpayment(request, pk):
 def register_batch(request, pk):
     courseOne = get_object_or_404(Course, pk=pk)
     batchcourse = TrainingBatch.objects.all().filter(course=courseOne)
-    user = request.user
+    print(batchcourse)
+    batchcourse_startdate = batchcourse.values('start_date')
+    batchcourse_enddate = batchcourse.values('end_date')
+
+    startdate_string = batchcourse_startdate[0]['start_date'].strftime('%Y-%m-%d')
+    enddate_string = batchcourse_enddate[0]['end_date'].strftime('%Y-%m-%d')
     
+    user = request.user
     initial_values = {
         'user': user,
-        'batchcourse': batchcourse
+        'course': batchcourse.first(),  
+        'start_date': startdate_string ,
+        'end_date' : enddate_string
     }
 
     form = NewParticipant(request.POST or None,initial=initial_values)
@@ -64,10 +72,13 @@ def register_batch(request, pk):
     if request.method == 'POST':
         if form.is_valid():
             batch_course = form.save(commit=False)
-            batch_course.course = batchcourse
+            batch_course.start_date = startdate_string
+            batch_course.end_date = enddate_string
+            batch_course.course = batchcourse.first()
+
             form.save()
           
-            return redirect('../course/mycourses')
+            return redirect('account:course')
     
     return render(request,'course/registerbatch.html',{
         'form': form,

@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.shortcuts import redirect, HttpResponseRedirect, get_object_or_404
 from course.models import Category, Course, OrderedCourse
 from django.db.models import Count
+
+from .forms import NewBatch
 # from django.urls import HttpRes
 # Create your views here.
 def admin_login(request):
@@ -62,4 +64,21 @@ def list_of_enrollees(request):
     return render(request, 'customadmin/list_of_enrollees.html',{
         'courses' : courses,
         'course_dict' : course_dict
+    })
+
+def create_batch(request):
+
+    form = NewBatch(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            # item = form.save(commit=False)
+            # item.save()
+            form.save()
+            return redirect('home')
+    else:
+        form = NewBatch()
+        
+    return render(request, 'customadmin/createbatch.html', {
+        'form': form
     })
