@@ -14,7 +14,7 @@ class NewCourseForm(forms.ModelForm):
 
     class Meta:
         model = OrderedCourse
-        fields = ('user','course','proof_of_payment')
+        fields = ('course','proof_of_payment')
 
     # widgets = {
     #     'category' : forms.TextInput(),

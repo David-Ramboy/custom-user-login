@@ -12,11 +12,9 @@
 <p>{{batch.start_date}}</p>
 <p>End Date:</p>
 <p>{{batch.end_date}}</p>
-<form method="POST" >
-    {% csrf_token %}
-    {{form.as_p}}<br>
-    <button>Register</button>
-</form>
+
+    {% comment %} <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit">Register</button> {% endcomment %}
+    <button> <a href="{% url 'course:detail' course.id batch.id %}">Register</a> </button>
 {% endfor %}
 
 

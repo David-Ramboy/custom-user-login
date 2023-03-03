@@ -5,12 +5,31 @@ from .models import OrderedCourse,Course
 from customadmin.models import TrainingBatch
 from django.urls import reverse
 from .forms import NewCourseForm, NewParticipant
-
+from account.models import Custom_user
 # Create your views here.
 @login_required
-def detail(request, pk):
-    course = get_object_or_404(Course, pk=pk)
+def detail(request, pk1, pk2):
+    course = get_object_or_404(Course, pk=pk1)
     user = request.user
+
+
+
+    courseOne = get_object_or_404(Course, pk=pk2)
+    batch_id_request = request.POST.get('batch_id')  
+    batchcourse = TrainingBatch.objects.filter(course=courseOne)
+    
+    # batchcourse_startdate = batchcourse.values('start_date')
+    # batchcourse_enddate = batchcourse.values('end_date')
+    
+    # startdate_string = batchcourse_startdate[0]['start_date'].strftime('%Y-%m-%d')
+    # enddate_string = batchcourse_enddate[0]['end_date'].strftime('%Y-%m-%d')
+    # print(batch_id.values('start_date')[0]['start_date'])
+    initial_values_batch = {
+        'user': user,
+        'course': batchcourse
+    }
+    # print(batchcourse.values('id'))
+    form_batch = NewParticipant(request.POST or None,initial=initial_values_batch)
 
     initial_values = {
         'user': user,
@@ -21,8 +40,21 @@ def detail(request, pk):
     
     if request.method == 'POST':
         if form.is_valid():
+            batch_instance = TrainingBatch.objects.filter(course=courseOne) & TrainingBatch.objects.filter(id=batch_id_request)
+
             ordered_course = form.save(commit=False)
             ordered_course.price = course.price
+            ordered_course.user = user
+            form.save()
+
+            # ----------for batch course -----------
+            batch_course = form.save(commit=False)
+            # print(batch_id_request)
+            batch_course.course = batch_instance.first().course
+            batch_instance.first().save()
+            batch_instance.first().participants.add(request.user)
+            # print(batch_id)
+            batch_course.batch_course_id = batch_id_request
             form.save()
           
             return redirect('../course/mycourses')
@@ -31,6 +63,9 @@ def detail(request, pk):
     return render(request, 'course/detail.html', {
         'form': form,
         'course' : course,
+        'form_batch' : form_batch,
+        'batchcourse' : batchcourse,
+
     })
 
 @login_required
@@ -49,37 +84,25 @@ def proofpayment(request, pk):
         'ordered_courses':ordered_courses
     })
 
-def register_batch(request, pk):
-    courseOne = get_object_or_404(Course, pk=pk)
-    batchcourse = TrainingBatch.objects.all().filter(course=courseOne)
-    batchcourse_startdate = batchcourse.values('start_date')
-    batchcourse_enddate = batchcourse.values('end_date')
+@login_required
+def register_batch(request,pk1):
+    course = get_object_or_404(Course, pk=pk1)
 
-    startdate_string = batchcourse_startdate[0]['start_date'].strftime('%Y-%m-%d')
-    enddate_string = batchcourse_enddate[0]['end_date'].strftime('%Y-%m-%d')
+    batch_id_request = request.POST.get('batch_id')  
+    batchcourse = TrainingBatch.objects.filter(course=course)
     
+    # batchcourse_startdate = batchcourse.values('start_date')
+    # batchcourse_enddate = batchcourse.values('end_date')
+    
+    # startdate_string = batchcourse_startdate[0]['start_date'].strftime('%Y-%m-%d')
+    # enddate_string = batchcourse_enddate[0]['end_date'].strftime('%Y-%m-%d')
+    # print(batch_id.values('start_date')[0]['start_date'])
     user = request.user
-    initial_values = {
-        'user': user,
-        'course': batchcourse.first(),  
-        'start_date': startdate_string ,
-        'end_date' : enddate_string
-    }
-
-    form = NewParticipant(request.POST or None,initial=initial_values)
-
-    if request.method == 'POST':
-        if form.is_valid():
-            batch_course = form.save(commit=False)
-            batch_course.start_date = startdate_string
-            batch_course.end_date = enddate_string
-            batch_course.course = batchcourse.first()
-
-            form.save()
-          
-            return redirect('account:course')
+   
+    # print(batchcourse.values('id'))
     
     return render(request,'course/registerbatch.html',{
-        'form': form,
+        'user' : user,
         'batchcourse' : batchcourse,
+        'course' : course
     })

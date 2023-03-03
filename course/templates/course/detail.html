@@ -4,12 +4,11 @@
 
 {% block content %}
 
-<form method="POST"   enctype="multipart/form-data">
+<form method="POST"  enctype="multipart/form-data">
     {% csrf_token %}
+    {{form_batch.as_p}}<br>
     {{form.as_p}}<br>
-    <a href="{% url 'course:register_batch' course.id %}">Register</a>
-
-    <button>Add Course</button>
+    <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit">Register</button>
 </form>
 
 {{course.course}}

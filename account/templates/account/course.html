@@ -16,7 +16,7 @@
         <tr>
             <td style="width: 900px;">{{course.course}}</td>
             <td style="width:300px">{{course.duration}}</td>
-            <td><a href="{% url 'course:detail' course.id %}">Get</a></td>
+            <td><a href="{% url 'course:register_batch' course.id %}">Get</a></td>
         </tr>
     </tbody>
     {% endfor %}
