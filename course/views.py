@@ -13,11 +13,9 @@ def detail(request, pk1, pk2):
     user = request.user
 
 
-
-    courseOne = get_object_or_404(Course, pk=pk2)
-    batch_id_request = request.POST.get('batch_id')  
-    batchcourse = TrainingBatch.objects.filter(course=courseOne)
-    
+    courseOne = get_object_or_404(Course, pk=pk1)
+    # batch_id_request = request.POST.get('batch_id')  
+    batchcourse = TrainingBatch.objects.filter(course=courseOne) & TrainingBatch.objects.filter(id=pk2)
     # batchcourse_startdate = batchcourse.values('start_date')
     # batchcourse_enddate = batchcourse.values('end_date')
     
@@ -40,7 +38,7 @@ def detail(request, pk1, pk2):
     
     if request.method == 'POST':
         if form.is_valid():
-            batch_instance = TrainingBatch.objects.filter(course=courseOne) & TrainingBatch.objects.filter(id=batch_id_request)
+            batch_instance = TrainingBatch.objects.filter(course=courseOne) & TrainingBatch.objects.filter(id=pk2)
 
             ordered_course = form.save(commit=False)
             ordered_course.price = course.price
@@ -48,19 +46,19 @@ def detail(request, pk1, pk2):
             form.save()
 
             # ----------for batch course -----------
-            batch_course = form.save(commit=False)
+            batch_course = form_batch.save(commit=False)
             # print(batch_id_request)
-            batch_course.course = batch_instance.first().course
-            batch_instance.first().save()
-            batch_instance.first().participants.add(request.user)
+            print(batch_instance.first())
+            batch_course.course = batch_instance.first()
+            # batch_instance.first().participants.add(request.user)
             # print(batch_id)
-            batch_course.batch_course_id = batch_id_request
-            form.save()
+            batch_course.batch_course_id = pk2
+            form_batch.save()
           
-            return redirect('../course/mycourses')
+            return redirect('course:my_courses')
     
 
-    return render(request, 'course/detail.html', {
+    return render(request, 'course/enroll.html', {
         'form': form,
         'course' : course,
         'form_batch' : form_batch,
@@ -91,12 +89,6 @@ def register_batch(request,pk1):
     batch_id_request = request.POST.get('batch_id')  
     batchcourse = TrainingBatch.objects.filter(course=course)
     
-    # batchcourse_startdate = batchcourse.values('start_date')
-    # batchcourse_enddate = batchcourse.values('end_date')
-    
-    # startdate_string = batchcourse_startdate[0]['start_date'].strftime('%Y-%m-%d')
-    # enddate_string = batchcourse_enddate[0]['end_date'].strftime('%Y-%m-%d')
-    # print(batch_id.values('start_date')[0]['start_date'])
     user = request.user
    
     # print(batchcourse.values('id'))
