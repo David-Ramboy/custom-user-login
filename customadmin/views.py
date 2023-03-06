@@ -3,9 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.shortcuts import redirect, HttpResponseRedirect, get_object_or_404
-from course.models import Category, Course, OrderedCourse
+from course.models import Category, Course, OrderedCourse,RegisterBatch
 from .models import TrainingBatch
-from django.db.models import Count
 
 from .forms import NewBatch
 # from django.urls import HttpRes
@@ -71,8 +70,7 @@ def create_batch(request):
 
     if request.method == 'POST':
         if form.is_valid():
-            # item = form.save(commit=False)
-            # item.save()
+           
             form.save()
             return redirect('home')
     else:
@@ -83,17 +81,21 @@ def create_batch(request):
     })
 
 def list_of_enrollees_per_batch(request):
-    course_batch = TrainingBatch.objects.select_related('course').all()
-    # print(course_batch.)
+    course_user = RegisterBatch.objects.all()
+    course_batch2 = TrainingBatch.objects.all()
     course_batch_dict = {}
-    for courses in course_batch:
-        course_name = courses.course.course
+    print(course_batch2)
+    for batch_id in course_user:
+        course_batch = TrainingBatch.objects.filter(id=batch_id.batch_course_id) 
+
+        course_name = course_batch.first()
         if course_name not in course_batch_dict:
             course_batch_dict[course_name] = []
-        course_batch_dict[course_name].append(courses)
-    
 
-        # for batch_course in batch_courses:
+        for batch in course_batch:
+            course_batch_dict[course_name].append(batch)
+    
+    print(len(course_batch_dict))
 
     return render(request, 'customadmin/list_of_enrollees_per_batch.html',{
          'course_batch_dict' : course_batch_dict

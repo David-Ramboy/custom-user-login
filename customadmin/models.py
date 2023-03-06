@@ -17,3 +17,4 @@ class TrainingBatch(models.Model):
     def __str__(self):
         return self.course.course
 
+    

@@ -48,10 +48,12 @@ class OrderedCourse(models.Model):
     
 class RegisterBatch(models.Model):
     user = models.ForeignKey(Custom_user,related_name='register_batch', on_delete=models.CASCADE)
-    course = models.CharField(max_length=255)
+    course = models.ForeignKey(Course, related_name='register_batch', on_delete=models.CASCADE)
     batch_course_id = models.CharField(max_length=100, null=True)
     
     
     def __str__(self):
         return self.user.email
     
+    class Meta:
+        unique_together = [['batch_course_id']]

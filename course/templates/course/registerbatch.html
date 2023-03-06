@@ -5,16 +5,18 @@
 <div>
     <h4>Available batch</h4>
 {% for batch in batchcourse %}
-{{batch.course}}<br>
-<p>Batch ID: {{batch.id}}</p>
+    {% if batch.end_date >= current_date %}
+        {{batch.course}}<br>
+        <p>Batch ID: {{batch.id}}</p>
 
-<p>Start Date:</p>
-<p>{{batch.start_date}}</p>
-<p>End Date:</p>
-<p>{{batch.end_date}}</p>
+        <p>Start Date:</p>
+        <p>{{batch.start_date}}</p>
+        <p>End Date:</p>
+        <p>{{batch.end_date}}</p>
 
-    {% comment %} <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit">Register</button> {% endcomment %}
-    <button> <a href="{% url 'course:detail' course.id batch.id %}">Register</a> </button>
+        {% comment %} <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit">Register</button> {% endcomment %}
+        <button> <a href="{% url 'course:detail' course.id batch.id %}">Register</a> </button><br>
+    {% endif %}
 {% endfor %}
 
 

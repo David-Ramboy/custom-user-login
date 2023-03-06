@@ -1,22 +1,23 @@
-{% extends 'account/base.html'%}
-
 {% block content %}
 <h1>List of Enrollees per batch</h1>
 
 {% for course_batch_name, batch_courses in course_batch_dict.items %}
+
     <p>{{course_batch_name}}</p>
     {% for batch_course in batch_courses %}
-        <li>{{ batch_course.start_date}} {{batch_course.end_date}}</li>
-        <li>{{ batch_course.participants.all }}</li>
-        <ul>
+    {% if forloop.first %}
+    <li>batch ID: {{ batch_course.id }}</li>
+    <li>{{ batch_course.start_date }} - {{ batch_course.end_date }}</li>
+    <ul>
         {% for participant in batch_course.participants.all %}
             <li>{{ participant }}</li>
- 
         {% endfor %}
-        </ul>
-    {%endfor%}
-    
-    
+    {% endif %}
+
+    {% if forloop.last %}
+    </ul>
+    {% endif %}
+{% endfor %}    
 {% endfor %}
 
 {% endblock %}
