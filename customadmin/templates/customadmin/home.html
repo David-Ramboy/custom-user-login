@@ -1,32 +1,51 @@
 {% extends 'account/base.html' %}
 
 {%  block content %}
-    <h1>Home Admin</h1>
-    <a href="{% url 'list_of_enrollees' %}">List of enrollees</a>
-    <a href="{% url 'create_batch' %}">Create batch</a>
-    <a href="{% url 'list_enrollees_per_batch' %}">view list of enrolless per batch</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark sticky-top">
+        <div class="container-fluid">
+          <a class="navbar-brand text-white" href="#">Home Admin</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a href="{% url 'list_of_enrollees' %}" class="nav-link text-white">List of enrollees</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'create_batch' %}" class="nav-link text-white">Create batch</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'list_enrollees_per_batch' %}" class="nav-link text-white">view list of enrolless per batch</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    
+    <div class="container-fluid">
+        <p class="pt-4 fs-5">List of Course:</p>
+        {% for category in categories %}
+            <table class="table table-striped ">
+                <thead>
+                    <tr class="border-bottom-0">
+                        <th scope="col" colspan="1">{{category.name}}</th>
+                        <th scope="col" colspan="1">{{category.duration}}</th>
+                        <th scope="col" colspan="2">{{category.price}}</th>
+                    </tr>
+                </thead>
+                {% for course in category.courses.all %}
+                <tbody>
+                    <tr>
+                        <td style="width: 900px;">{{course.course}}</td>
+                        <td style="width:300px">{{course.duration}}</td>
+                        <td style="width:200px">{{course.price}}</td>
+                        <td style="width:200px"><a href="{% url 'detail' course.id %}" class="btn text-primary">view details</a></td>
 
-    <p>List of Course:</p>
-    {% for category in categories %}
-        <table class="table">
-        <thead>
-            <tr>
-                <th colspan="1">{{category.name}}</th>
-                <th colspan="1">{{category.duration}}</th>
-                <th colspan="2">{{category.price}}</th>
-            </tr>
-        </thead>
-        {% for course in category.courses.all %}
-        <tbody>
-            <tr>
-                <td style="width: 900px;">{{course.course}}</td>
-                <td style="width:300px">{{course.duration}}</td>
-                <td style="width:200px">{{course.price}}</td>
-                <td style="width:200px"><a href="{% url 'detail' course.id %}">view details</a></td>
-
-            </tr>
-        </tbody>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
         {% endfor %}
-        </table>
-    {% endfor %}
+    </div>
 {% endblock %}

@@ -1,13 +1,30 @@
 {% extends 'account/base.html'%}
 
 {% block content %}
-<h1>List of Enrollees</h1>
-{% for course_name, ordered_courses in course_dict.items %}
-    <p>{{course_name}}</p>
-    {% for ordered_course in ordered_courses %}
-        <li>{{ ordered_course.user.email }}</li>
-    {%endfor%}
-    
-{% endfor %}
+<div class="w-100" style="height:70px;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark sticky-top">
+        <div class="container-fluid d-flex justify-content-end">
+        <a class="navbar-brand text-white" href="{% url 'home'%}">back</a>
+        </div>
+    </nav>
+</div>
+<div class="w-100 row justify-content-center ">
+    <div class="col-8 border p-0 m-0">
+
+        <div class="w-100  bg-dark p-3 ">
+            <h4 class="text-white">List of Enrollees</h4>
+        </div>
+
+        {% for course_name, ordered_courses in course_dict.items %}
+        <div class="p-3 border-bottom">
+
+            <p class="fw-bold">{{course_name}}</p>
+            {% for ordered_course in ordered_courses %}
+                <li>{{ ordered_course.user.email }}</li>
+            {%endfor%}
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

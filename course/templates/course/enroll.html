@@ -4,22 +4,56 @@
 
 {% block content %}
 
-<form method="POST"  enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form_batch.as_p}}<br>
-    {{form.as_p}}<br>
-    <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit">Enroll</button>
-</form>
+<div class="row justify-content-center  h-100 w-100 p-0 m-0 position-relative ">
+  
+    <div class="border bg-primary-subtle h-50 w-100 p-0 m-0">
 
-{{course.course}}
-{{course.price}}
-{{user.email}}
-{% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-        {% endfor %}
     </div>
-{% endif %}
+    <form method="POST"  enctype="multipart/form-data" class="shadow position-absolute  row w-50 justify-content-center mt-5 border p-5 bg-light-subtle" style="top:90px;">
+        <div class="col-9 ">
+            {% csrf_token %}
+            <p class="m-0">User:</p>
+            
+            {{user.email}}
+            <br>
+            <div class="d-none"> {{form_batch.user}}</div><br> 
+            <p class="m-0">Course:</p>
+            <div class="d-none">
+            {{form.course}}
+            </div>
+            {{course.course}}
+            <br>
+            <br>
+
+            <p class="m-0">Price:</p>
+            {{course.price}}
+            <br>
+            <br>
+
+            <p class="m-0">Proof of payment</p>
+            {{form.proof_of_payment}}
+            <br>
+            <br>
+
+            <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit" class="btn btn-success">Enroll</button>
+                
+            {% if messages %}
+            <div class="messages" id="messages">
+                {% for message in messages %}
+                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                {% endfor %}
+            </div>
+            
+            {% endif %}
+            <script>
+                setTimeout(function() {
+                    document.getElementById('messages').style.display = 'none';
+                }, 5000); // Change the number of milliseconds (currently set to 5000) to adjust the time it takes for the messages to disappear
+            </script>
+            
+        </div>
+    </form>
+
+</div>
 
 {% endblock %}

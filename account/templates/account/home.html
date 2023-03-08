@@ -1,16 +1,41 @@
 {% extends 'account/base.html' %}
+{% load static %}
 
 {% block content %}
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark sticky-top">
+        <div class="container-fluid">
+        <a class="navbar-brand text-white" href="#">Welcome {{user.username}}</a>
+        </div>
+    </nav>
 
-<p>Welcome {{user.username}}</p>
-<p>Your Phone Address. is {{user.address}}</p>
-<p>Your Current No is {{user.phone_number}}</p>
-<p>Your Current Email is {{user.email}}</p>
-<p>Your Company name is {{user.company}}</p>
-<p>Your Position is {{user.position}}</p>
+    <div class="row justify-content-center align-content-center border-danger border position-absolute top-0 start-0 h-100 w-100 m-0 p-0">
+        <div class="border row w-50 d-flex flex-column p-4">
+            <div class="  col row w-100 p-0 m-0">
+                <div class="col-6 ">
+                    <img src="{% static 'images/profile.jpg' %}" class="img-fluid" alt="profile">
+                </div>
+                <div class="col-6 ">
+                    <div class="border-bottom pt-3">
+                        <h3 class="m-0 p-0">I'm</h3>
+                        <h1>{{user.username }}</h1>
+                        <p>Your Position is {{user.position}}</p>
+                    </div>
+                    <p>Your Address. is {{user.address}}</p>
+                    <p>Your Current No is {{user.phone_number}}</p>
+                    <p>Your Current Email is {{user.email}}</p>
+                    <p>Your Company name is {{user.company}}</p>
+                </div>
+            </div>
+            <div class="p-2 col text-center w-100  justify-content-center">
+                <a  href="{% url 'account:profile' %}"><button class="btn btn-secondary btn-sm" >Edit Profile</button></a>
+                <a href="/course"><button class="btn btn-primary btn-sm"> Goto courses </button></a>
+                <a href="{% url 'course:my_courses'%}"><button class="btn btn-primary btn-sm"> My courses </button></a>
 
+            </div>
+        </div>
+    </div>
 
+</div>
 
-<a href="{% url 'account:profile' %}">Edit Profile</a><br>
-<a href="/course">Goto courses</a>
 {% endblock %}

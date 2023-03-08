@@ -2,23 +2,37 @@
 
 {% block content %}
 
+
+
 <div>
-    <h4>Available batch</h4>
-{% for batch in batchcourse %}
-    {% if batch.end_date >= current_date %}
-        {{batch.course}}<br>
-        <p>Batch ID: {{batch.id}}</p>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark sticky-top">
+        <div class="container-fluid">
+            <h4 class="navbar-brand text-white ">Available batch</h4>
 
-        <p>Start Date:</p>
-        <p>{{batch.start_date}}</p>
-        <p>End Date:</p>
-        <p>{{batch.end_date}}</p>
+            <a class="navbar-brand text-white btn btn-secondary" href="{% url 'account:course' %}">back</a>
+        </div>
+    </nav>
+<div class=" w-100 row">
+    {% for batch in batchcourse %}
+        <div class="col-3 border m-2 me-3 ms-3 p-0 justify-content-center">
+        {% if batch.end_date >= current_date %}
+            
+            <p class="bg-success text-white fw-bold  p-3">{{batch.course}}</p>
+            <div class="pe-3 ps-3">
+                <li>Batch ID: {{batch.id}}</li>
 
-        {% comment %} <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit">Register</button> {% endcomment %}
-        <button> <a href="{% url 'course:detail' course.id batch.id %}">Register</a> </button><br>
-    {% endif %}
-{% endfor %}
+                <li class="p-0 m-0">Start Date:</li>
+                <p >{{batch.start_date}}</p>
+                <li class="p-0 m-0">End Date:</li>
+                <p>{{batch.end_date}}</p>
 
+                {% comment %} <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit">Register</button> {% endcomment %}
+                <a  href="{% url 'course:detail' course.id batch.id %}" class="text-decoration-none "><button class="mb-3 btn bg-success border border-dark bg-opacity-10 text-primary">Register </button></a><br>
+            </div>
+        {% endif %}
+        </div>
+    {% endfor %}
+</div>
 
 
 </div>

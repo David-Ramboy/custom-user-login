@@ -2,15 +2,28 @@
 
 {% block title %}{{course.course}}{% endblock %}
 {% block content %}
-<h1>Course Details</h1>
+<div class="w-100" style="height:70px;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark sticky-top">
+        <div class="container-fluid d-flex justify-content-between">
+            <h4 class="ps-5 text-white">Course Details</h4>
 
-<h3>Course Category</h3>
-<p>{{course.category}}</p>
-<h3>Course Name</h3>
-<p>{{course.course}}</p>
-<h3>Course duration</h3>
-<p>{{course.duration}}</p>
-<h3>Course Price</h3>
-<p>{{course.price}}</p>
+            <a class="navbar-brand text-white" href="{% url 'home'%}">back</a>
 
+        </div>
+    </nav>
+</div>
+<div class="w-100 row justify-content-center ">
+
+<div class="col-8 shadow p-5 border " style="margin-top:80px;">
+
+<h5 class="fw-bold">Course Category</h5>
+<p class="ps-3">{{course.category}}</p>
+<h5 class="fw-bold">Course Name</h5>
+<p class="ps-3">{{course.course}}</p>
+<h5 class="fw-bold">Course duration</h5>
+<p class="ps-3">{{course.duration}}</p>
+<h5 class="fw-bold">Course Price</h5>
+<p class="ps-3">{{course.price}}</p>
+</div>
+</div>
 {% endblock %}

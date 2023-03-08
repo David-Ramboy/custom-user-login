@@ -1,25 +1,32 @@
 {% extends 'account/base.html' %}
 
 {% block content %}
-
-<h2>Login</h2>
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-danger">{{ message }}</div>
-    {% endfor %}
-{% endif %}
-<form method="post">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="username">Email|Username:</label>
-        <input type="text" class="form-control" id="username" name="username" required>
+<div class="container h-100  d-flex flex-column justify-content-center">
+    <div class=" p-lg-5 row">
+        <div class="col-8 offset-2">
+            <h2 class="text-center">Login</h2>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group p-3">
+                    <label for="username" class="fs-5">Email|Username:</label>
+                    <input type="text" class="form-control mt-2" id="username" name="username" required>
+                </div>
+                <div class="form-group p-3">
+                    <label for="password"  class="fs-5">Password:</label>
+                    <input type="password" class="form-control mt-2" id="password" name="password" required>
+                </div>
+                <div class="row p-3 text-center">
+                    <button type="submit" class="btn btn-primary me-2">Login</button>
+                    <a href="register/" class=""> signup</a>
+                    <a href="{% url 'admin_login' %}" class="">Login Admin</a>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-    <a href="register/">signup</a>
-</form>
-
+</div>
 {% endblock %}

@@ -22,7 +22,7 @@ def register_user(request):
             # item = form.save(commit=False)
             # item.save()
             form.save()
-            return redirect('login')
+            return redirect('account:login')
     else:
         form = RegistrationForm()
     

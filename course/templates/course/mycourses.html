@@ -1,18 +1,29 @@
 {% extends 'account/base.html' %}
 
 {% block content %}
-
-<div style="display:flex; justify-content:space-between; flex-wrap:wrap;">
-{%  for ordered_course in  ordered_courses %}
-<div>
-    <h4>{{ordered_course.course.category}}</h4><br>
-    {{ordered_course.course}} <br> 
-    {{ordered_course.price}} <br> 
-    <div><a href="{% url 'account:viewpayment' ordered_course.id  %}">Proof of Payment Link</a></div>
-    {{ordered_course.status}} <br> <br><br><br>
-
+<div class="w-100" style="height:100px;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark sticky-top">
+        <div class="container-fluid d-flex justify-content-end">
+        <a class="navbar-brand text-white" href="{% url 'account:home'%}">Profile</a>
+        </div>
+    </nav>
 </div>
+<div class="w-100 row justify-content-center ">
+    <div class="col-8 border p-0 m-0">
+        <div class="w-100  bg-dark p-3 ">
+            <h3 class="text-white">My Course</h3>
+        </div>
+        {%  for ordered_course in  ordered_courses %}
+        <div class="p-3 border-bottom">
+            <h4>{{ordered_course.course.category}}</h4><br>
+            {{ordered_course.course}} <br> 
+            {{ordered_course.price}} <br> 
+            <div><a href="{{ordered_course.proof_of_payment.url}}">Proof of Payment Link</a></div>
+            {{ordered_course.status}} <br> 
 
-{% endfor %}
+        </div>
+
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

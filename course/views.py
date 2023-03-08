@@ -60,6 +60,7 @@ def detail(request, pk1, pk2):
 @login_required
 def my_courses(request):
     ordered_courses = OrderedCourse.objects.filter(user=request.user)
+    print(ordered_courses)
     user = request.user
     return render(request, 'course/mycourses.html',{
         'ordered_courses': ordered_courses,
