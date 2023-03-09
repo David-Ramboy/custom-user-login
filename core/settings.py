@@ -54,9 +54,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'customadmin.middleware.custom_admin_middleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
+
+LOGIN_URL = 'login'
 
 TEMPLATES = [
     {

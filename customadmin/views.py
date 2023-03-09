@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, HttpResponseRedirect, get_object_or_404
 from course.models import Category, Course, OrderedCourse,RegisterBatch
 from .models import TrainingBatch
+from .decorators import admin_required
 
 from .forms import NewBatch
 # from django.urls import HttpRes
@@ -33,6 +34,7 @@ def admin_login(request):
 
     return render(request, 'customadmin/login.html')
 
+@admin_required
 def home(request):
     courses = Course.objects.all()
     categories = Category.objects.all() 
@@ -41,7 +43,7 @@ def home(request):
         'courses' : courses
     })
 
-
+@admin_required
 def detail(request, pk):
     course = get_object_or_404(Course, pk=pk)
 
@@ -49,6 +51,7 @@ def detail(request, pk):
         'course' : course,
     })
 
+@admin_required
 def list_of_enrollees(request):
     courses = Course.objects.all()
     ordered_courses = OrderedCourse.objects.select_related('user','course').all()
@@ -64,6 +67,7 @@ def list_of_enrollees(request):
         'course_dict' : course_dict
     })
 
+@admin_required
 def create_batch(request):
 
     form = NewBatch(request.POST or None)
@@ -80,6 +84,7 @@ def create_batch(request):
         'form': form
     })
 
+@admin_required
 def list_of_enrollees_per_batch(request):
     course_user = RegisterBatch.objects.all()
     course_batch2 = TrainingBatch.objects.all()

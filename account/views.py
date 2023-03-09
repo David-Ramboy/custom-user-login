@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
@@ -32,6 +32,7 @@ def register_user(request):
     })
 
 def login_user(request):
+    logout(request)
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -51,9 +52,11 @@ def login_user(request):
 
     return render(request, 'account/login.html')
 
+@login_required(login_url='account:login')
 def home(request):
     return render(request, 'account/home.html')
 
+@login_required(login_url='account:login')
 def course(request):
     courses = Course.objects.all()
     categories = Category.objects.all() 
@@ -63,7 +66,7 @@ def course(request):
         'courses' : courses
     })
 
-@login_required
+@login_required(login_url='account:login')
 def profile(request):
     if request.method == 'POST':
         user = request.user
@@ -85,9 +88,14 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     success_message = "Succesfully Changed Your Password"
     success_url = reverse_lazy('account:profile')
 
+@login_required(login_url='account:login')
 def viewimgpayment(request, pk):
     ordered_courses = get_object_or_404(OrderedCourse, pk=pk)
 
     return render(request, 'account/viewimgpayment.html',{
         'ordered_courses':ordered_courses
     })
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('account:login'))
