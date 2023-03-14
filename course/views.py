@@ -10,11 +10,11 @@ from datetime import date,datetime,time
 def detail(request, pk1, pk2):
     course = get_object_or_404(Course, pk=pk1)
     user = request.user
-
-
+    register_from_batch = RegisterBatch.objects.filter(batch_course_id=pk2)
     courseOne = get_object_or_404(Course, pk=pk1)
     batchcourse = TrainingBatch.objects.filter(course=courseOne) & TrainingBatch.objects.filter(id=pk2)
-   
+    enrolled_batches = RegisterBatch.objects.filter(user=request.user).values_list('batch_course_id', flat=True)
+
     initial_values_batch = {
         'user': user,
         'course': batchcourse
@@ -25,10 +25,13 @@ def detail(request, pk1, pk2):
         'user': user,
         'course': course
     }
+    useraa = RegisterBatch.objects.filter(user=request.user)
+    print(useraa)
 
     form = NewCourseForm(request.POST or None, request.FILES or None,initial=initial_values)
    
-    if not RegisterBatch.objects.filter(batch_course_id=pk2).exists():
+    if not RegisterBatch.objects.filter(user=request.user, batch_course_id=pk2).exists():
+
         if request.method == 'POST':
             if form.is_valid():
                 batch_instance = TrainingBatch.objects.filter(course=courseOne,id=pk2)
@@ -41,20 +44,25 @@ def detail(request, pk1, pk2):
                 batch_course = form_batch.save(commit=False)
                 batch_course.course = course
                 batch_instance.first().participants.add(request.user)
-                batch_course.batch_course_id = pk2
+                batch_course.batch_course_id = str(pk2)
                 form_batch.save()
             
                 return redirect('course:my_courses')
     else:
         messages_text = f"A registration for this batch course already exits."
         messages.warning(request, messages_text)
-    
+    try:
+        print(messages_text)
+    except UnboundLocalError:
+        messages_text = None
+
     return render(request, 'course/enroll.html', {
         'form': form,
         'course' : course,
         'form_batch' : form_batch,
         'batchcourse' : batchcourse,
-
+        'register_from_batch' : messages_text,
+        'enrolled_batches' : enrolled_batches
     })
 
 @login_required(login_url='account:login')
@@ -81,8 +89,6 @@ def register_batch(request,pk1):
     batchcourse = TrainingBatch.objects.filter(course=course)
     
     user = request.user
-
-    
    
     current_date = date.today()
     current_datetime = datetime.combine(current_date, time.min)

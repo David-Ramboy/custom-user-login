@@ -24,6 +24,11 @@
                 <p>{{batch.end_date}}</p>
 
                 {% comment %} <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit">Register</button> {% endcomment %}
+                <div>
+                    <a  href="{% url 'update_batch_batches' batch.id %}" class="text-decoration-none "><button class="mb-3 btn bg-success border border-dark bg-opacity-10 text-primary">Edit</button></a><br>
+                    <a  href="{% url 'view_enrollees' batch.id %}" class="text-decoration-none "><button class="mb-3 btn bg-success border border-dark bg-opacity-10 text-primary">see enrollees</button></a><br>
+                    
+                </div>
             </div>
 </div>
     {% endfor %}

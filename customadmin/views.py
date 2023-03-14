@@ -7,10 +7,11 @@ from course.models import Category, Course, OrderedCourse,RegisterBatch
 from .models import TrainingBatch
 from .decorators import admin_required
 from django.urls import reverse,reverse_lazy
-from .forms import NewBatch, NewCourse, UpdateCourse, UpdateUserForm
+from .forms import NewBatch, NewCourse, UpdateCourse, UpdateUserForm, UpdateBatch
 from datetime import date,datetime,time
 from account.models import Custom_user
 from account.forms import RegistrationForm
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -196,8 +197,8 @@ def edit_user(request,pk):
         
         if form.is_valid():
             user = form.save()
-            messages.info(request, f'You have successfully updated your profile.')
-            return HttpResponseRedirect(reverse('customadmin:home'))
+            messages.info(request, f'You have successfully updated user.')
+            return HttpResponseRedirect(reverse('users_info'))
     else:
         form = UpdateUserForm(instance=user)
 
@@ -236,8 +237,8 @@ def create_batch_in_course(request,pk):
             formawait.course = course
 
             form.save()
-            return redirect('home')
-        
+            return redirect(reverse('detail', args=[pk]))
+
     return render(request, 'customadmin/create_batch_in_course.html',{
         'course':course,
         'form' : form
@@ -271,7 +272,66 @@ def list_all_batch(request):
         
 
     sorted_batches = order_batches_available + order_batches_expire
-    print(sorted_batches)
     return render(request, 'customadmin/list_all_batch.html',{
         'sorted_batches' : sorted_batches
+    })
+
+
+@admin_required
+def update_batch(request,pk,pk2):
+    course_batch = TrainingBatch.objects.get(id=pk2)
+    print(course_batch.course)
+    print(course_batch.end_date)
+    print(course_batch.start_date)
+
+    form = UpdateBatch(request.POST or None, instance=course_batch)
+
+    if request.method == 'POST':
+        
+        if form.is_valid():
+            user = form.save()
+            messages.info(request, f'You have successfully updated user.')
+            return redirect(reverse('detail', args=[pk]))
+    else:
+        form = UpdateBatch(instance=course_batch)
+
+    return render(request, 'customadmin/update_batch.html', {
+        'form' : form
+    })
+
+@admin_required
+def update_batch_batches(request,pk):
+    course_batch = TrainingBatch.objects.get(id=pk)
+    print(course_batch.course)
+    print(course_batch.end_date)
+    print(course_batch.start_date)
+
+    form = UpdateBatch(request.POST or None, instance=course_batch)
+
+    if request.method == 'POST':
+        
+        if form.is_valid():
+            user = form.save()
+            messages.info(request, f'You have successfully updated user.')
+            return redirect(reverse('list_all_batch'))
+    else:
+        form = UpdateBatch(instance=course_batch)
+
+    return render(request, 'customadmin/update_batch_batches.html', {
+        'form' : form
+    })
+
+@admin_required
+def view_enrollees(request,pk):
+    course_batch = TrainingBatch.objects.get(id=pk)
+    try:
+        user_register = RegisterBatch.objects.filter(batch_course_id=pk)
+    except ObjectDoesNotExist:
+        user_register = None
+
+    print(user_register,'ddd')
+
+    return render(request, 'customadmin/view-enrollees.html',{
+        'course_batch' : course_batch,
+        'user_registers' : user_register
     })

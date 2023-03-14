@@ -35,7 +35,14 @@
             <br>
             <br>
 
-            <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit" class="btn btn-success">Enroll</button>
+            {% if register_from_batch == "A registration for this batch course already exits." %}
+
+                <p class="btn btn-primary">Enrolled</p>
+
+            {% else %}
+            <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit" class="btn btn-success text-white">Enroll</button>
+
+            {% endif %}
                 
             {% if messages %}
             <div class="messages" id="messages">

@@ -56,5 +56,5 @@ class RegisterBatch(models.Model):
     def __str__(self):
         return self.user.email
     
-    class Meta:
-        unique_together = [['batch_course_id']]
+    # class Meta:
+    #     unique_together = [['batch_course_id']]

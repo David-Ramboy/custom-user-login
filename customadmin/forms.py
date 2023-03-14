@@ -49,3 +49,11 @@ class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = ['username', 'email','company','position', 'phone_number', 'address']
+
+class UpdateBatch(forms.ModelForm):
+    start_date = forms.DateField(widget=DateInput)
+    end_date = forms.DateField(widget=DateInput)
+
+    class Meta:
+        model = TrainingBatch
+        fields = ['course','start_date','end_date']
