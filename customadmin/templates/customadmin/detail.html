@@ -13,17 +13,53 @@
     </nav>
 </div>
 <div class="w-100 row justify-content-center ">
+    <div>
+    <a href="{% url 'create_batch_in_course' course.id %}" class="btn btn-success" style="margin-left:30px;">Create Batch</a>
+    </div>
+    <div class="col-8 d-flex shadow p-5  " style="margin-top:80px; padding-bottom:20px;">
 
-<div class="col-8 shadow p-5 border " style="margin-top:80px;">
+        <div class="w-50">
+            <h5 class="fw-bold">Course Category</h5>
+            <p class="ps-3">{{course.category}}</p>
+            <h5 class="fw-bold">Course Name</h5>
+            <p class="ps-3">{{course.course}}</p>
+            <h5 class="fw-bold">Course duration</h5>
+            <p class="ps-3">{{course.duration}}</p>
+            <h5 class="fw-bold">Course Price</h5>
+            <p class="ps-3">{{course.price}}</p>
+        </div>
+        <div class=" d-flex col-4 w-50 align-items-end justify-content-end pe-5 pb-3 ">
+            <a href="{% url 'update_course' course.id %}" class="btn btn-success">Edit</a>
+        </div>
 
-<h5 class="fw-bold">Course Category</h5>
-<p class="ps-3">{{course.category}}</p>
-<h5 class="fw-bold">Course Name</h5>
-<p class="ps-3">{{course.course}}</p>
-<h5 class="fw-bold">Course duration</h5>
-<p class="ps-3">{{course.duration}}</p>
-<h5 class="fw-bold">Course Price</h5>
-<p class="ps-3">{{course.price}}</p>
+    </div>
+
 </div>
+
+<div class=" h-100 w-100  ">
+    <div class="mt-5 ">
+        <h1 style="margin-left:200px;">All Batch</h1>
+    </div>
+    <div class=" w-100 row">
+        {% for batch in sorted_batches %}
+
+            <div class="col-3 border m-2 me-3 ms-3 p-0 justify-content-center">
+                
+                <p class="bg-success text-white fw-bold  p-3">{{batch.course}}</p>
+                <div class="pe-3 ps-3">
+                    <li>Batch ID: {{batch.id}}</li>
+    
+                    <li class="p-0 m-0">Start Date:</li>
+                    <p >{{batch.start_date}}</p>
+                    <li class="p-0 m-0">End Date:</li>
+                    <p>{{batch.end_date}}</p>
+    
+                    {% comment %} <button id={batch.id} name="batch_id" value="{{batch.id}}" type="submit">Register</button> {% endcomment %}
+                    <a  href="{% url 'course:detail' course.id batch.id %}" class="text-decoration-none "><button class="mb-3 btn bg-success border border-dark bg-opacity-10 text-primary">Register </button></a><br>
+                </div>
+    </div>
+        {% endfor %}
+    </div>
+
 </div>
 {% endblock %}

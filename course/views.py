@@ -6,7 +6,7 @@ from .forms import NewCourseForm, NewParticipant
 from django.contrib import messages
 from datetime import date,datetime,time
 # Create your views here.
-@login_required
+@login_required(login_url='account:login')
 def detail(request, pk1, pk2):
     course = get_object_or_404(Course, pk=pk1)
     user = request.user
@@ -57,7 +57,7 @@ def detail(request, pk1, pk2):
 
     })
 
-@login_required
+@login_required(login_url='account:login')
 def my_courses(request):
     ordered_courses = OrderedCourse.objects.filter(user=request.user)
     print(ordered_courses)
@@ -74,7 +74,7 @@ def proofpayment(request, pk):
         'ordered_courses':ordered_courses
     })
 
-@login_required
+@login_required(login_url='account:login')
 def register_batch(request,pk1):
     course = get_object_or_404(Course, pk=pk1)
 

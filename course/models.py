@@ -16,6 +16,7 @@ class Course(models.Model):
     course = models.CharField(max_length=255)
     duration = models.CharField(max_length=255) 
     price = models.DecimalField(max_digits=12, decimal_places=2)
+    isArchived = models.BooleanField(default=False)
 
     def __str__(self):
         return self.course

@@ -19,6 +19,7 @@
             </tr>
         </thead>
         {% for course in category.courses.all %}
+        {% if not course.isArchived %}
         <tbody>
             <tr>
                 <td style="width: 900px;">{{course.course}}</td>
@@ -26,6 +27,7 @@
                 <td><a href="{% url 'course:register_batch' course.id %}" class="btn text-primary">Get</a></td>
             </tr>
         </tbody>
+        {%endif%}
         {% endfor %}
     </table>
     {% endfor %}

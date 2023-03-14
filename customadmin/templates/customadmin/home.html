@@ -10,6 +10,9 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
+                <a href="{% url 'users_info' %}" class="nav-link text-white">Users</a>
+              </li>
+              <li class="nav-item">
                 <a href="{% url 'list_of_enrollees' %}" class="nav-link text-white">List of enrollees</a>
               </li>
               <li class="nav-item">
@@ -23,8 +26,11 @@
         </div>
       </nav>
     
-    <div class="container-fluid">
-        <p class="pt-4 fs-5">List of Course:</p>
+    <div class="container-fluid mt-3">
+        <a href="{% url 'create_course' %}" class="btn btn-success fw-bold">Create Course</a>
+        <a href="{% url 'list_all_batch' %}" class="btn btn-success fw-bold">List of all Batches</a>
+
+        <p class="pt-4 fs-5">List of Courses:</p>
         {% for category in categories %}
             <table class="table table-striped ">
                 <thead>
@@ -41,6 +47,7 @@
                         <td style="width:300px">{{course.duration}}</td>
                         <td style="width:200px">{{course.price}}</td>
                         <td style="width:200px"><a href="{% url 'detail' course.id %}" class="btn text-primary">view details</a></td>
+                       
 
                     </tr>
                 </tbody>

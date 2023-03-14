@@ -58,9 +58,10 @@ def home(request):
 
 @login_required(login_url='account:login')
 def course(request):
-    courses = Course.objects.all()
-    categories = Category.objects.all() 
-        
+    courses = Course.objects.filter(isArchived=True) 
+    categories = Category.objects.all()
+   
+    print(courses)
     return render(request, 'account/course.html', {
         'categories' : categories,
         'courses' : courses

@@ -2,12 +2,18 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from django.shortcuts import redirect, HttpResponseRedirect, get_object_or_404
+from django.shortcuts import redirect, HttpResponseRedirect, get_object_or_404 
 from course.models import Category, Course, OrderedCourse,RegisterBatch
 from .models import TrainingBatch
 from .decorators import admin_required
+from django.urls import reverse,reverse_lazy
+from .forms import NewBatch, NewCourse, UpdateCourse, UpdateUserForm
+from datetime import date,datetime,time
+from account.models import Custom_user
+from account.forms import RegistrationForm
 
-from .forms import NewBatch
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 # from django.urls import HttpRes
 # Create your views here.
 def admin_login(request):
@@ -47,8 +53,40 @@ def home(request):
 def detail(request, pk):
     course = get_object_or_404(Course, pk=pk)
 
+    batchcourse = TrainingBatch.objects.filter(course=course)
+    
+    current_date = date.today()
+    current_datetime = datetime.combine(current_date, time.min)
+
+    updated_batches = []
+    order_batches_available = []
+    order_batches_expire = []
+
+    for batch in batchcourse:
+        batch_end_date_str = batch.end_date.strftime('%Y-%m-%d')
+        batch.end_date = datetime.strptime(batch_end_date_str, '%Y-%m-%d')
+        updated_batches.append(batch)
+
+         
+    for up in updated_batches:
+        # print(up.end_date >= current_datetime)
+        if(up.end_date >= current_datetime):
+            order_batches_available.append(up)
+        
+        if(up.end_date < current_datetime):
+            order_batches_expire.append(up)
+        
+   
+
+    sorted_batches = order_batches_available + order_batches_expire
+    print(sorted_batches)
+
     return render(request, 'customadmin/detail.html', {
         'course' : course,
+        'batchcourse' : updated_batches,
+        'current_date' : current_datetime,
+        'sorted_batches' : sorted_batches
+
     })
 
 @admin_required
@@ -104,4 +142,136 @@ def list_of_enrollees_per_batch(request):
 
     return render(request, 'customadmin/list_of_enrollees_per_batch.html',{
          'course_batch_dict' : course_batch_dict
+    })
+
+@admin_required
+def create_course(request):
+    form = NewCourse(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+           
+            form.save()
+            return redirect('home')
+    else:
+        form = NewCourse()
+    return render(request, 'customadmin/create_course.html', {
+        'form' : form
+    })
+
+@admin_required
+def update_course(request,pk):
+    course = get_object_or_404(Course, pk=pk)
+
+    if request.method == 'POST':
+        form = UpdateCourse(request.POST or None, instance=course)
+
+        if form.is_valid():
+            course = form.save()
+
+            return redirect(reverse('detail', args=[pk]))
+    else:
+        form = UpdateCourse(instance=course)
+    
+    return render(request, 'customadmin/update_course.html',{
+        'form': form
+    })
+@admin_required
+def users_info(request):
+    users = Custom_user.objects.all()
+    return render(request, 'customadmin/users_info.html',{
+        'users' : users
+    })
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'customadmin/changeuserpassword.html'
+    success_message = "Succesfully Changed Your Password"
+    success_url = reverse_lazy('users_info')
+
+@admin_required
+def edit_user(request,pk):
+    user = Custom_user.objects.get(id=pk)
+    if request.method == 'POST':
+        form = UpdateUserForm(request.POST or None, instance=user)
+        
+        if form.is_valid():
+            user = form.save()
+            messages.info(request, f'You have successfully updated your profile.')
+            return HttpResponseRedirect(reverse('customadmin:home'))
+    else:
+        form = UpdateUserForm(instance=user)
+
+    return render(request, 'customadmin/edit_user.html',{
+        'form':form
+    })
+
+@admin_required
+def create_user(request):
+    form = RegistrationForm()
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+
+        if form.is_valid():
+            # item = form.save(commit=False)
+            # item.save()
+            form.save()
+            return redirect('users_info')
+    else:
+        form = RegistrationForm()
+    
+    return render(request, 'customadmin/create_user.html',{
+        'form' : form,
+        'title' : 'New item'
+    })
+
+@admin_required
+def create_batch_in_course(request,pk):
+    course = get_object_or_404(Course,pk=pk)
+    print(course)
+    form = NewBatch(request.POST or None, initial={'course': course})
+
+    if request.method == 'POST':
+        if form.is_valid():
+            formawait = form.save(commit=False)
+            formawait.course = course
+
+            form.save()
+            return redirect('home')
+        
+    return render(request, 'customadmin/create_batch_in_course.html',{
+        'course':course,
+        'form' : form
+    })
+
+@admin_required
+def list_all_batch(request):
+
+    batchcourse = TrainingBatch.objects.all()
+    
+    current_date = date.today()
+    current_datetime = datetime.combine(current_date, time.min)
+
+    updated_batches = []
+    order_batches_available = []
+    order_batches_expire = []
+
+    for batch in batchcourse:
+        batch_end_date_str = batch.end_date.strftime('%Y-%m-%d')
+        batch.end_date = datetime.strptime(batch_end_date_str, '%Y-%m-%d')
+        updated_batches.append(batch)
+
+         
+    for up in updated_batches:
+        # print(up.end_date >= current_datetime)
+        if(up.end_date >= current_datetime):
+            order_batches_available.append(up)
+        
+        if(up.end_date < current_datetime):
+            order_batches_expire.append(up)
+        
+
+    sorted_batches = order_batches_available + order_batches_expire
+    print(sorted_batches)
+    return render(request, 'customadmin/list_all_batch.html',{
+        'sorted_batches' : sorted_batches
     })
