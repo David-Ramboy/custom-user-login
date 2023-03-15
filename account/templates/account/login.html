@@ -20,10 +20,10 @@
                     <label for="password"  class="fs-5">Password:</label>
                     <input type="password" class="form-control mt-2" id="password" name="password" required>
                 </div>
-                <div class="row p-3 text-center">
+                <div class="row p-3 text-center d-flex justify-content-center flex-column">
                     <button type="submit" class="btn btn-primary me-2">Login</button>
-                    <a href="register/" class=""> signup</a>
-                    <a href="{% url 'admin_login' %}" class="">Login Admin</a>
+                    <a href="register/" class="btn btn-success w-25 align-self-center mt-2 mb-2"> signup</a>
+                    <a href="{% url 'admin_login' %}" class="btn btn-dark w-25 align-self-center">Login Admin</a>
                 </div>
             </form>
         </div>

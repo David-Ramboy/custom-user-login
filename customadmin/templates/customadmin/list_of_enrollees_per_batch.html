@@ -3,17 +3,19 @@
 {% block content %}
 <div class="w-100" style="height:70px;">
     <nav class="navbar navbar-expand-lg navbar-light bg-dark sticky-top">
-        <div class="container-fluid d-flex justify-content-end">
-        <a class="navbar-brand text-white" href="{% url 'home'%}">back</a>
+        <div class="container-fluid d-flex justify-content-between">
+            <h4 class="text-white">List of Enrollees per batch</h4>
+
+            <a class="navbar-brand text-white" href="{% url 'home'%}">back</a>
         </div>
     </nav>
 </div>
-<div class="w-100 row justify-content-center ">
+
+<div class="w-100 row justify-content-center pb-5 ">
 
     <div class="col-8 border p-0 m-0">
 
     <div class="w-100  bg-dark p-3 ">
-        <h4 class="text-white">List of Enrollees per batch</h4>
     </div>
 
     {% for course_batch_name, batch_courses in course_batch_dict.items %}
@@ -33,9 +35,11 @@
         {% if forloop.last %}
         </ul>
         {% endif %}
-    </div>
     {% endfor %}    
+</div>
+
     {% endfor %}
+
     </div>
 </div>
 

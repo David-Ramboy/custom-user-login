@@ -14,6 +14,16 @@ from django.core.exceptions import ValidationError
 
 
 class RegistrationForm(UserCreationForm):
+    username = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    address = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    company = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    position = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    phone_number = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password1 = forms.CharField( widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField( widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     class Meta:
         User = get_user_model()

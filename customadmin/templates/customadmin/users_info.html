@@ -10,28 +10,50 @@
     </nav>
 </div>
 <div>
-    <a href="{% url 'create_user' %}" class="btn btn-primary">Create User</a>
-    {% for user in users %}
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>username</th>
-                    <th>email</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="width: 300px;">{{user.username}}</td>
-                    <td style="width:300px;">{{user.email}}</td>
-                    <td style="width:300px;">  
-                        <a href="{% url 'edit_user' user.id %}" class="btn btn-success">Edit</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
+    <script>
+        // Find the alert element and add the "show" class
+        var alertElement = document.querySelector('.alert');
+        if (alertElement) {
+          alertElement.classList.add('show');
+        }   
+        // Hide the alert element after 5 seconds
+        setTimeout(function() {
+          if (alertElement) {
+
+            alertElement.classList.remove('show');
+            alertElement.classList.add('d-none');
+          
+        }
+        }, 5000);
+    </script>
+{% endif %}
+        <a href="{% url 'create_user' %}" class="btn btn-primary" style="margin-left: 38px;">Create User</a>
+        {% for user in users %}
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="padding-left: 50px;">username</th>
+                        <th>email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width: 300px; padding-left: 50px;">{{user.username}}</td>
+                        <td style="width:300px;">{{user.email}}</td>
+                        <td style="width:300px; padding-right: 50px;" class="text-end" >  
+                            <a href="{% url 'edit_user' user.id %}" class="btn btn-success">Edit</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        {% endfor %}
+
 </div>
 
 {% endblock %}

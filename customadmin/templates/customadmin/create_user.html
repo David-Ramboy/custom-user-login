@@ -6,7 +6,7 @@
 <div class="w-100" style="height:70px;">
     <nav class="navbar navbar-expand-lg navbar-light bg-dark sticky-top">
         <div class="container-fluid d-flex justify-content-between">
-            <h4 class="ps-5 text-white">Create Course</h4>
+            <h4 class="ps-5 text-white">Create User</h4>
 
             <a class="navbar-brand text-white" href="{% url 'users_info'%}">back</a>
 
@@ -15,25 +15,47 @@
 </div>
 
 <div>
-<p>register</p>
-<form action="" method="post">
+<div class="row w-100 p-0 m-0  d-flex justify-content-center">
+    <div class="col-6">
+<form action="" method="post"  class="border p-5 mt-5 shadow">
     {% csrf_token %}
-    <label for="username">Username</label>
+    <div class="d-flex">
+    <label class="w-25" for="username">Username</label>
     {{form.username}}<br>
-    <label for="username">Email</label>
+    </div>
+    <div class="d-flex">
+
+    <label class="w-25" for="username">Email</label>
     {{form.email}}<br>
-    <label for="username">Phone No:</label>
+    </div>
+    <div class="d-flex">
+    
+    <label class="w-25" for="username">Phone No:</label>
     {{form.phone_number}}<br>
-    <label for="username">Address</label>
+    </div>
+    <div class="d-flex">
+    
+    <label class="w-25" for="username">Address</label>
     {{form.address}}<br>
-    <label for="username">Company</label>
+    </div>
+    <div class="d-flex">
+    <label class="w-25" for="username">Company</label>
     {{form.company}}<br>
-    <label for="username">Position</label>
+    </div>
+    <div class="d-flex">
+    <label  class="w-25" for="username">Position</label>
     {{form.position}}<br>
-    <label for="username">Password</label>
+    </div>
+    <div class="d-flex">
+    
+    <label class="w-25" for="username">Password</label>
     {{form.password1}}<br>
-    <label for="username">Confirm Password</label>
+    </div>
+    <div class="d-flex">
+    
+    <label class="w-25" for="username">Confirm Password</label>
     {{form.password2}}<br><br>
+    </div>
     {% if form.errors%}
     {% for field in  form%}
         {% for error in field.errors %}
@@ -45,8 +67,11 @@
     {% endfor %}
     {% endif %} <br><br>
 
-    <button>submit</button>
+    <div class=" text-center">
+    <button class="btn btn-success">submit</button>
+    </div>
 </form>
-
+</div>
+</div>
 </div>
 {% endblock %}

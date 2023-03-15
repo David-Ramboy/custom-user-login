@@ -37,10 +37,9 @@
             {% endfor %}
             {% endif %} 
             <div class="d-flex justify-content-center align-items-center">
-                {% comment %} <a href="{% url 'user_password_change' %}" class="order-2"><div class="btn btn-primary text-white">Change Password</div></a> {% endcomment %}
+                <a href="{% url 'change_password' user.id %}" class="order-2"><div class="btn btn-primary text-white">Change Password</div></a>
                 <button class="btn btn-success order-1 ms-3 me-3">Save Change</button><br>
                 <a href="{% url 'users_info' %}"><div class="btn btn-secondary order-3"> back </div></a>
-    
             </div>
         </form>
     

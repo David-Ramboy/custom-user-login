@@ -61,10 +61,9 @@ def course(request):
     courses = Course.objects.filter(isArchived=True) 
     categories = Category.objects.all()
    
-    print(courses)
     return render(request, 'account/course.html', {
         'categories' : categories,
-        'courses' : courses
+        'courses' : courses,
     })
 
 @login_required(login_url='account:login')
@@ -76,7 +75,7 @@ def profile(request):
         if form.is_valid():
             user = form.save()
             messages.info(request, f'You have successfully updated your profile.')
-            return HttpResponseRedirect(reverse('account:home'))
+            return redirect('account:home')
     else:
         form = UpdateUserForm(instance=request.user)
 

@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, HttpResponseRedirect, get_object_or_404 
 from course.models import Category, Course, OrderedCourse,RegisterBatch
 from .models import TrainingBatch
+from account.models import Custom_user
 from .decorators import admin_required
 from django.urls import reverse,reverse_lazy
 from .forms import NewBatch, NewCourse, UpdateCourse, UpdateUserForm, UpdateBatch
@@ -13,8 +14,11 @@ from account.models import Custom_user
 from account.forms import RegistrationForm
 from django.core.exceptions import ObjectDoesNotExist
 
-from django.contrib.auth.views import PasswordChangeView
-from django.contrib.messages.views import SuccessMessageMixin
+
+# changing password users
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth import update_session_auth_hash
+
 # from django.urls import HttpRes
 # Create your views here.
 def admin_login(request):
@@ -184,14 +188,11 @@ def users_info(request):
         'users' : users
     })
 
-class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
-    template_name = 'customadmin/changeuserpassword.html'
-    success_message = "Succesfully Changed Your Password"
-    success_url = reverse_lazy('users_info')
 
 @admin_required
 def edit_user(request,pk):
     user = Custom_user.objects.get(id=pk)
+    print(user.id)
     if request.method == 'POST':
         form = UpdateUserForm(request.POST or None, instance=user)
         
@@ -203,6 +204,7 @@ def edit_user(request,pk):
         form = UpdateUserForm(instance=user)
 
     return render(request, 'customadmin/edit_user.html',{
+        'user' : user,
         'form':form
     })
 
@@ -335,3 +337,15 @@ def view_enrollees(request,pk):
         'course_batch' : course_batch,
         'user_registers' : user_register
     })
+
+@user_passes_test(lambda u: u.is_superuser)
+def change_password(request, user_id):
+    user = get_object_or_404(Custom_user, id=user_id)
+    if request.method == 'POST':
+        new_password = request.POST['new_password']
+        user.set_password(new_password)
+        user.save()
+        update_session_auth_hash(request, user)
+        messages.success(request, f"Password for user {user.username} has been updated.")
+        return redirect(reverse('users_info'))
+    return render(request, 'customadmin/changeuserpassword.html', {'user':user})
