@@ -215,8 +215,7 @@ def create_user(request):
         form = RegistrationForm(request.POST)
 
         if form.is_valid():
-            # item = form.save(commit=False)
-            # item.save()
+         
             form.save()
             return redirect('users_info')
     else:
@@ -230,7 +229,6 @@ def create_user(request):
 @admin_required
 def create_batch_in_course(request,pk):
     course = get_object_or_404(Course,pk=pk)
-    print(course)
     form = NewBatch(request.POST or None, initial={'course': course})
 
     if request.method == 'POST':
@@ -265,7 +263,6 @@ def list_all_batch(request):
 
          
     for up in updated_batches:
-        # print(up.end_date >= current_datetime)
         if(up.end_date >= current_datetime):
             order_batches_available.append(up)
         
@@ -282,9 +279,6 @@ def list_all_batch(request):
 @admin_required
 def update_batch(request,pk,pk2):
     course_batch = TrainingBatch.objects.get(id=pk2)
-    print(course_batch.course)
-    print(course_batch.end_date)
-    print(course_batch.start_date)
 
     form = UpdateBatch(request.POST or None, instance=course_batch)
 
@@ -331,7 +325,6 @@ def view_enrollees(request,pk):
     except ObjectDoesNotExist:
         user_register = None
 
-    print(user_register,'ddd')
 
     return render(request, 'customadmin/view-enrollees.html',{
         'course_batch' : course_batch,
