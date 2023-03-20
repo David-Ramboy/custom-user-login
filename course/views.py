@@ -10,7 +10,6 @@ from datetime import date,datetime,time
 def detail(request, pk1, pk2):
     course = get_object_or_404(Course, pk=pk1)
     user = request.user
-    register_from_batch = RegisterBatch.objects.filter(batch_course_id=pk2)
     courseOne = get_object_or_404(Course, pk=pk1)
     batchcourse = TrainingBatch.objects.filter(course=courseOne) & TrainingBatch.objects.filter(id=pk2)
     enrolled_batches = RegisterBatch.objects.filter(user=request.user).values_list('batch_course_id', flat=True)
@@ -25,8 +24,6 @@ def detail(request, pk1, pk2):
         'user': user,
         'course': course
     }
-    useraa = RegisterBatch.objects.filter(user=request.user)
-    print(useraa)
 
     form = NewCourseForm(request.POST or None, request.FILES or None,initial=initial_values)
    

@@ -4,7 +4,7 @@ from .models import TrainingBatch
 from course.models import Course
 from django.contrib.auth import get_user_model; 
 
-
+# DATE INPUT IS FOR DATES INPUT WIDGETS
 class DateInput(forms.DateInput):
     input_type = 'date'
 

@@ -5,13 +5,6 @@ from django.contrib.auth import get_user_model;
 from django import forms
 from .models import Custom_user
 from django.core.exceptions import ValidationError
-# from .models import UserRegisters
-# from django.contrib.auth.forms import AuthenticationForm
-
-# class CustomLoginForm(AuthenticationForm):
-#     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
-#     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder':'Password'}))
-
 
 class RegistrationForm(UserCreationForm):
     username = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -55,12 +48,13 @@ class UpdateUserForm(forms.ModelForm):
         model = get_user_model()
         fields = ['username', 'email','company','position', 'phone_number', 'address']
 
+# JUST REFERENCE FOR TEMPLATING WITH HTML ATTRIBUTES
+
 # class RegistrationForm(forms.ModelForm):
 
 #     class Meta:
 #         model = UserRegisters
 #         fields = ('username', 'email', 'password', 're_password')
-    
 # widgets = {
 #     'username' : forms.TextInput(attrs={
 #         'placeholder' : 'Enter your Username'
@@ -75,8 +69,6 @@ class UpdateUserForm(forms.ModelForm):
 #         'placeholder' : 'Enter your Email'
 #     })
 # }
-
-    
     # username = forms.CharField(label='Username', max_length=30)
     # email = forms.EmailField(label='Email')
     # password = forms.CharField(label='Password', widget=forms.PasswordInput)

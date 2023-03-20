@@ -5,8 +5,6 @@ from datetime import date
 import uuid
 # Create your models here.
 
-
-    
 class TrainingBatch(models.Model):
 
     course = models.ForeignKey(Course,related_name='training_batch',on_delete=models.CASCADE)

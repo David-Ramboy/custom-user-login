@@ -19,8 +19,6 @@ def register_user(request):
         form = RegistrationForm(request.POST)
 
         if form.is_valid():
-            # item = form.save(commit=False)
-            # item.save()
             form.save()
             return redirect('account:login')
     else:
